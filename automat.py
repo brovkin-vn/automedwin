@@ -194,6 +194,7 @@ class Automat(threading.Thread):
             T = int(self.model.pump_data['T'])
             piro = self.model.piro_data
             result, data, error_message = self.rest.save_data(row_id, E, S, M, D, P, L, P_max, Move, T, dissatisfied=1, Alc=0, Pir=piro)
+
             if result:
                 self.model.mdata = data
             else:

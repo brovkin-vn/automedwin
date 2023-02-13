@@ -71,21 +71,27 @@ class Rest():
         data = {}
 
         try: 
+            print('111111')
             http = urllib3.PoolManager()
             url = f"https://pnoc-pc177.uku.evraz.com/medic/SaveMedicYaml.php?{id=}&E={E}&{S=}&{M=}&{D=}&{P=}&{L=}&{P_max=}&{Move=}&{T=}&{dissatisfied=}&{Alc=}&Pir={Pir}"
+            print('111112')
             self._log.info(f"{url=}")
             resp = http.request('GET', url)
-            
+            print('111113')
             result = (resp.status == 200)
             full_name = 'none'
             row_id = -1
-            
+            print('111114')
             if result:
                 try:
                     # print(resp.data.decode('utf8'))
+                    print('  111111')
                     data=yaml.load(resp.data.decode('utf8'), Loader=yaml.loader.BaseLoader)
+                    print('  111112')
                     print(data)
+                    print('  111113')
                     result = (data['result'] == "OK")
+                    print('  111114')
                     # full_name = d['fullName']
                     # row_id = d['rowId']
                 except yaml.YAMLError as e:
