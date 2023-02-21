@@ -21,7 +21,10 @@ class Piro(threading.Thread):
         self._tick = datetime.now() 
         self._callback = None
         self._terminated = False
-        self._ser = serial.Serial(port, 115200, timeout=1)
+        try:
+            self._ser = serial.Serial(port, 115200, timeout=1)
+        except:
+            raise(Exception(f'Don`t open the pirometer port: {port}'))
         self._piro_data = 0
 
     def run(self):
@@ -66,7 +69,7 @@ def test():
     ports = serial.tools.list_ports.comports()
     ports = [port for port in ports]
     print(f"{[port[0] for port in ports]}")
-    piro = Piro(log = log.Log().getLogger(name='test'), port='COM8gi')
+    piro = Piro(log = log.Log().getLogger(name='test'), port='COM8')
     piro.connect(on_piro_data_is_ready)    
     piro.start()
     n = 5

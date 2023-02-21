@@ -4,7 +4,6 @@ import queue
 import time
 
 import log
-from args import Args
 from rest import Rest
 from model import Model
 from model import EVENTS 
@@ -15,16 +14,23 @@ from mainframe import MainFrame
 class Automat(threading.Thread):
 
 
-    def __init__(self, log, args, model:Model, rest:Rest) -> None:
+    def __init__(self, log, model:Model, rest:Rest) -> None:
         super().__init__()
-        self.args:Args = args
         self.model = model
         self.rest = rest
         self.frame:MainFrame = NULL
         self._log = log
         self._log.info(f'init automat')
         self._terminated = False
+        self._callback_alco_start = None
         self._queue = queue.Queue()
+
+    def connect_alco_start(self, foo):
+        self._callback_alco_start = foo
+
+    def alco_start(self):
+        if self._callback_alco_start:
+            self._callback_alco_start()   
 
     def do_step(self, event):
 
@@ -81,14 +87,15 @@ class Automat(threading.Thread):
             case STATE.PUMP:
                 match event:
                     case EVENT.PUMP:
-                            if self.args.enable_piro:
+                            if self.model.enable_piro:
                                 self.model.state = STATE.PIRO
                                 self.model.timer_piro = 0
                                 self.frame.showPanel(self.frame.panelPiro)
-                            elif self.args.enable_alco:
+                            elif self.model.enable_alco:
                                 self.model.state = STATE.ALCO
                                 self.model.timer_alco = 0
                                 self.frame.showPanel(self.frame.panelAlco)
+                                self.alco_start()
                             else:
                                 self.save_pump_data()
                                 self.model.state = STATE.SAVE
@@ -111,10 +118,11 @@ class Automat(threading.Thread):
             case STATE.PIRO:
                 match event:
                     case EVENT.PIRO:
-                            if self.args.enable_alco:
+                            if self.model.enable_alco:
                                 self.model.state = STATE.ALCO
                                 self.model.timer_alco = 0
                                 self.frame.showPanel(self.frame.panelAlco)
+                                self.alco_start()
                             else:
                                 self.save_pump_data()
                                 self.model.state = STATE.SAVE
@@ -136,7 +144,7 @@ class Automat(threading.Thread):
 
             case STATE.ALCO:
                 match event:
-                    case EVENT.ACLO:
+                    case EVENT.ALCO:
                         self.save_pump_data()
                         self.model.state = STATE.SAVE
                         self.model.timer_save = 0
@@ -197,6 +205,8 @@ class Automat(threading.Thread):
 
             if result:
                 self.model.mdata = data
+                self._log.info(f'{data=}')
+                self._log.info(f'{data["pump_t"]=}, {data["piro"]=}, {data["alco"]=}, {data["pump_s"]=}, {data["pump_d"]=}, {data["pump_p"]=}, {data["pump_a"]=}, {data["resume"]=}')
             else:
                 self._log.error(f'{error_message}')
                 self.model.last_error_message = error_message
@@ -254,13 +264,13 @@ class Automat(threading.Thread):
     def on_pump_data_is_ready(self, data):
         self._log.info(f'test callback, on_pump_data_is_ready, data:{data}')
         self.model.pump_data = data
-        self.model.piro_data  = '-'
-        self.model.alco_data = '---'
+        self.model.piro_data  = 'N'
+        self.model.alco_data = 'N'
         self.put_event(EVENT.PUMP)
 
     def on_alco_data_is_ready(self, data):
         self._log.info(f'test callback, on_aclo_data_is_ready, data:{data}')
-        self.put_event(EVENT.ACLO)
+        self.put_event(EVENT.ALCO)
 
     def on_piro_data_is_ready(self, data):
         self._log.info(f'test callback, on_piro_data_is_ready, data:{data}')

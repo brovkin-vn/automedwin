@@ -76,14 +76,15 @@ class PanelTest(wx.Panel):
     def onTimer(self, event):
         if self.IsShown:
             print(f"onTimer {self.index_test=}")
-            result = self.test[self.index_test]()
+            result, data = self.test[self.index_test]()
+            print(result, data)
             self.checklist.append(result)
             if result:
                 self.st[self.index_test].SetForegroundColour(wu.GREEN)
-                self.st[self.index_test].SetLabelText("+ "+self.labels[self.index_test])
+                self.st[self.index_test].SetLabelText(f"+ {self.labels[self.index_test]} - {data}")
             else:
                 self.st[self.index_test].SetForegroundColour(wu.RED)
-                self.st[self.index_test].SetLabelText("- "+self.labels[self.index_test])
+                self.st[self.index_test].SetLabelText(f"- {self.labels[self.index_test]} - {data}")
 
             # self.index_test = len(self.st)-1 if self.index_test == 0 else self.index_test - 1 
             self.index_test = self.index_test + 1 if self.index_test < len(self.st)-1 else 0

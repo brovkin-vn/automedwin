@@ -18,7 +18,7 @@ if __name__ == "__main__":
     model = Model(log)
     rest = Rest(log)
     
-    automat = Automat(log, args, model, rest)
+    automat = Automat(log, model, rest)
 
     reader = Reader(log)
     reader.connect(automat.on_card_data_is_ready)
@@ -28,13 +28,29 @@ if __name__ == "__main__":
     pump.connect(automat.on_pump_data_is_ready)
     pump.start()
 
-    alco = Alco(log, args.alco_port)
-    alco.connect(automat.on_alco_data_is_ready)
-    alco.start()
+    alco = None
+    model.enable_alco = args.enable_alco
+    if args.enable_alco:
+        try:
+            alco = Alco(log, args.alco_port)
+            alco.connect(automat.on_alco_data_is_ready)
+            alco.start()
+            automat.connect_alco_start(alco.send_start_cmd)
+        except Exception as e:
+            log.error(e)
+            model.enable_alco = False
 
-    piro = Piro(log, args.piro_port)
-    piro.connect(automat.on_piro_data_is_ready)
-    piro.start()
+
+    piro = None
+    model.enable_piro = args.enable_piro
+    if args.enable_piro:
+        try:
+            piro = Piro(log, args.piro_port)
+            piro.connect(automat.on_piro_data_is_ready)
+            piro.start()
+        except Exception as e:
+            log.error(e)
+            model.enable_piro = False
 
     app = App()
     frame = MainFrame(None, 'Hello', log=log, model=model, args=args)
@@ -44,6 +60,6 @@ if __name__ == "__main__":
     app.MainLoop()
 
     pump.stop()
-    alco.stop()
-    piro.stop()
+    if alco: alco.stop()
+    if piro: piro.stop()
     automat.stop()

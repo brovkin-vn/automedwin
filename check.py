@@ -20,19 +20,26 @@ def list_ports():
 def alco():
     try:
         desc_mask = "cp210x"
+        desc_mask = "LOCATION=1-1.1.1"
         ports = serial.tools.list_ports.comports()
-        # return True
-        return any([desc_mask in port[1] for port in ports])
+        for port, desc, hwid in sorted(ports):
+            if desc_mask in  hwid:
+                return True, port
+        return False, 'None'
     except:
-        return False
+        return False, 'None'
 
 def piro():
     try:
         desc_mask = "CH340"
+        desc_mask = "LOCATION=1-1.2.3"
         ports = serial.tools.list_ports.comports()
-        return any([desc_mask in port[1] for port in ports])
+        for port, desc, hwid in sorted(ports):
+            if desc_mask in  hwid:
+                return True, port
+        return False, 'None'
     except:
-        return False
+        return False, 'None'
 
 def addr():
     try:
@@ -40,9 +47,9 @@ def addr():
         s = Popen(command, shell=True, stdin=PIPE, stdout=PIPE).stdout.read().decode()
         ip = " ".join(s.split()).split(' ')[3]
         # print(f"{ip=}")
-        return '10.' in ip
+        return '10.' in ip, ip
     except:
-        return False
+        return False, 'None'
 
 def router1():
     try:
@@ -50,9 +57,9 @@ def router1():
         s = Popen(command, shell=True, stdin=PIPE, stdout=PIPE).stdout.read().decode()
         gateway = " ".join(s.split()).split(' ')[2]
         # print(f"{gateway=}")
-        return '10.' in gateway
+        return '10.' in gateway, gateway
     except:
-        return False
+        return False, 'None'
 
 
 def router2():
@@ -61,10 +68,10 @@ def router2():
         # print(command)
         s = Popen(command, shell=True, stdin=PIPE, stdout=PIPE).stdout.read().decode("IBM866")
         # print(f"command result: {len(s)=}: {s=}")
-        return len(s) > 0
+        return len(s) > 0, s
     except Exception as e:
         print(e)
-        return False
+        return False, 'None'
 
 def server1():
     try:
@@ -74,12 +81,12 @@ def server1():
         
         if resp.status == 200:
             data = resp.data.decode('utf8')
-            return 'ok' in data
+            return 'ok' in data, resp.reason
         else:
-            return False
+            return False, 'None'
     except Exception as e:
         print(e)
-        return False
+        return False, 'None'
 
 def server2():
     try:
@@ -88,9 +95,9 @@ def server2():
         resp = http.request('GET', url)
         if resp.status == 200:
             root = etree.fromstring(resp.data.decode('utf8'))
-            return root[0][0][0].attrib['name'] == 'getCards'
+            return root[0][0][0].attrib['name'] == 'getCards', resp.reason
         else:
-            return False
+            return False, 'None'
 
     except Exception as e:
         print(e)

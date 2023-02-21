@@ -89,9 +89,11 @@ class Model():
         self._last_error_message = ''
         self._full_name =  ''
         self._row_id = -1
-        self._piro_data:str = '-'
-        self._aclo_data:str = '-'
+        self._piro_data:str = 'N'
+        self._aclo_data:str = 'N'
         self._pump_data = {"T":"00:00", "S":"-", "D":"-", "P":"-", "A":"-"}
+        self._enable_alco = False
+        self._enable_piro = False
 
 
         self.log.info(
@@ -108,6 +110,19 @@ class Model():
         self._row_id = result[2]
         self._last_error_message = result[3]
 
+    @property
+    def enable_alco(self):
+        return self._enable_alco
+    @enable_alco.setter
+    def enable_alco(self, value):
+        self._enable_alco = value
+
+    @property
+    def enable_piro(self):
+        return self._enable_piro
+    @enable_piro.setter
+    def enable_piro(self, value):
+        self._enable_piro = value
 
     @property
     def piro_data(self):

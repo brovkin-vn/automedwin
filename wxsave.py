@@ -66,21 +66,21 @@ class PanelSave(wx.Panel):
     def Show(self, show=True):
         self.st[0].SetLabel("МЕДОСМОТР ПРОЙДЕН")
         # "ВРЕМЯ ИЗМЕРЕНИЯ:", 
-        self.st[1].SetLabel(self.parent.model.pump_data["T"] )
+        self.st[1].SetLabel(self.parent.model.mdata["pump_t"] )
         # "ТЕМПЕРАТУРА:", 
-        self.st[2].SetLabel(self.parent.model.piro_data)
+        self.st[2].SetLabel(self.parent.model.mdata["piro"])
         # "АЛКОГОЛЬ:",
-        self.st[3].SetLabel("--")
+        self.st[3].SetLabel(self.parent.model.mdata["alco"])
         # "ВЕРХНЕЕ:",
-        self.st[4].SetLabel(self.parent.model.pump_data["D"])
+        self.st[4].SetLabel(self.parent.model.mdata["pump_s"])
         # "НИЖНЕЕ:",
-        self.st[5].SetLabel(self.parent.model.pump_data["S"])
+        self.st[5].SetLabel(self.parent.model.mdata["pump_d"])
         # "ПУЛЬС:",
-        self.st[6].SetLabel(self.parent.model.pump_data["P"])
+        self.st[6].SetLabel(self.parent.model.mdata["pump_p"])
         # "АРИТМИЯ:",
-        self.st[7].SetLabel(self.parent.model.pump_data["A"])
+        self.st[7].SetLabel(self.parent.model.mdata["pump_a"])
         # "ГИПЕРТОНИЯ:"]
-        self.st[8].SetLabel(str(self.parent.model.row_id))
+        self.st[8].SetLabel(self.parent.model.mdata["resume"])
 
 
         return super().Show(show)

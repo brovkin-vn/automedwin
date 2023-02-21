@@ -1,4 +1,5 @@
 import wx
+from model import EVENT
 import wxutil as wu
 
 class PanelAlco(wx.Panel):
@@ -19,5 +20,5 @@ class PanelAlco(wx.Panel):
         self.btn.Bind(wx.EVT_LEFT_DOWN, self.onCancelBtn)
 
     def onCancelBtn(self, event):
-        self.parent.automat.put_event(9999)
+        self.parent.automat.put_event(EVENT.CANCEL)
         event.Skip()

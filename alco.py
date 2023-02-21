@@ -28,7 +28,7 @@ class Alco(threading.Thread):
         self._data = ''
 
 
-    def init(self):
+    def send_start_cmd(self):
         self._ser.flushInput()
         self._ser.flushOutput()
         self._ser.write('$START\n'.encode())
@@ -85,7 +85,7 @@ def test():
     alco = Alco(log = log.Log().getLogger(name='test'), port='COM1')
     alco.connect(alco.test_callback)    
     alco.start()
-    alco.init()
+    alco.send_start_cmd()
     n = 20
     for i in range(n):
         if alco.is_alive():
