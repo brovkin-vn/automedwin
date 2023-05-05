@@ -26,15 +26,17 @@ class Cam():
         return img
 
     def get_face(self):
-        # cap = cv2.VideoCapture(0)
-        # ret, frame = cap.read()
-        frame = cv2.imread("./test_img/brovkin.jpg")
+        cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+        # cap = cv2.VideoCapture(0, cv2.CAP_MSMF)
+        # cap = cv2.VideoCapture(0, cv2.CAP_V4L2)
+        ret, frame = cap.read()
+        # frame = cv2.imread("./test_img/brovkin.jpg")
         # frame = cv2.imread("./test_img/yurichev.png")
         
         # print(f'{type(frame)}')
         # cap.release()
         # rgb_frame = frame[:, :, ::-1]
-        return True, frame
+        return ret, frame
 
 def test():
     print('test camera')

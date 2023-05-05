@@ -2,7 +2,7 @@ from datetime import datetime
 import logging
 import time
 from unittest import result
-from pynput import keyboard
+# from pynput import keyboard
 import log
 import args
 import threading

@@ -1,3 +1,4 @@
+from datetime import datetime
 from cgi import print_arguments
 from enum import auto
 import wx
@@ -51,6 +52,12 @@ class MainFrame(wx.Frame):
 
         self._log = log
 
+        self._buffer = ''
+        self._tick = datetime.now() 
+        # self.listener = pynput.keyboard.Listener(on_press=self.on_press)
+        self._callback = None
+
+
         menubar = wx.MenuBar()
         fileMenu = wx.Menu()
         fileMenu.Append(Cmd.ID_TEST, "&Test")
@@ -80,6 +87,8 @@ class MainFrame(wx.Frame):
         self.Bind(wx.EVT_MENU, self.onShowPanel, id=Cmd.ID_SHOW_TEST)
         self.Bind(wx.EVT_MENU, self.onShowPanel, id=Cmd.ID_SHOW_ERRO)
         self.Bind(wx.EVT_MENU, self.onShowPanel, id=Cmd.ID_SHOW_WAIT)
+        self.Bind(wx.EVT_CHAR_HOOK, self.onCharHook) 
+
 
         # panels list
         self.panelPost = PanelPost(self, size, pos) 
@@ -102,8 +111,45 @@ class MainFrame(wx.Frame):
     def args(self):
         return self._args
 
-    def onClickP(self, event):
-        print("onClickP")
+    # def onClickP(self, event):
+    #     print("onClickP")
+
+    @property
+    def card(self):
+        return self._card
+
+    @property
+    def buffer(self):
+        return self._buffer
+
+    def connect(self, foo):
+        self._callback = foo
+
+    def onCharHook(self, event):
+        print("onCharHook", event.KeyCode, event.RawKeyCode, event.RawKeyFlags, chr(event.RawKeyCode))
+        try:
+            # print(f"{key.__dict__=}")
+            tick = datetime.now()
+            d = tick - self._tick
+            self._tick = tick
+            if ((d.days==0) and (d.seconds==0) and (d.microseconds < 80000)) or (len(self._buffer) == 0):
+                self._buffer = self._buffer + chr(event.RawKeyCode)
+                # self._buffer = self._buffer + key.char
+            else:
+                self._buffer = chr(event.RawKeyCode)
+                # self._buffer = key.char
+
+            # self._log.debug(f'{d.seconds=} {d.microseconds=} {self.buffer=}')
+            if len(self._buffer) == 8:
+                self._log.info(f'pass is read card={self._buffer}')
+                self._card = self._buffer
+                if self._callback:
+                    self._callback(self.card)        
+            
+            
+        except AttributeError as e:
+            self._log.error(e)
+
 
     def onQuit(self, event):
 

@@ -3,7 +3,7 @@ from datetime import datetime
 import logging
 import time
 # from pynput import keyboard
-import pynput
+#import pynput
 import log
 import args
 
@@ -22,11 +22,12 @@ class Reader():
         self._log.info(f'init card reader {id(self)}')
         self._buffer = ''
         self._tick = datetime.now() 
-        self.listener = pynput.keyboard.Listener(on_press=self.on_press)
+        #self.listener = pynput.keyboard.Listener(on_press=self.on_press)
         self._callback = None
 
     def start(self):
-        self.listener.start()
+        pass
+        # self.listener.start()
 
     @property
     def card(self):

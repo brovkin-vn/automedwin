@@ -5,7 +5,7 @@ from model import Model
 from automat import Automat
 from mainframe import MainFrame
 from rest import Rest 
-from reader import Reader
+from reader2 import Reader
 from pump import Pump
 from alco import Alco
 from piro import Piro
@@ -21,8 +21,8 @@ if __name__ == "__main__":
     automat = Automat(log, model, rest)
 
     reader = Reader(log)
-    reader.connect(automat.on_card_data_is_ready)
-    reader.start()
+    # reader.connect(automat.on_card_data_is_ready)
+    # reader.start()
     
     pump = Pump(log, args.pump_port)
     pump.connect(automat.on_pump_data_is_ready)
@@ -54,9 +54,11 @@ if __name__ == "__main__":
 
     app = App()
     frame = MainFrame(None, 'Hello', log=log, model=model, args=args)
+    frame.connect(automat.on_card_data_is_ready)
     frame.bindAutomat(automat)
     automat.start()
     frame.Show()
+
     app.MainLoop()
 
     pump.stop()

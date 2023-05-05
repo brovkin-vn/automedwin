@@ -6,8 +6,9 @@ GREEN = wx.Colour(20,200,20)
 RED   = wx.Colour(200,20,20)
 GRAY  = wx.Colour(60,60,60)
 
-SCALE = 2/6
+SCALE = 6/6
 _screen_size:wx.Size = wx.Size(1366, 768) * 3 / 4 #
+# _screen_size:wx.Size = wx.Size(1024, 768) * 4 / 4 #
 # _screen_size:wx.Size = wx.Display(0).GetGeometry().GetSize()*SCALE
 _dh  = _screen_size.height / 100
 _dw = _screen_size.width / 100
