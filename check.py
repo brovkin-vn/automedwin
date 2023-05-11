@@ -90,6 +90,7 @@ def server1():
 
 def server2():
     try:
+        # return False, 'None'
         http = urllib3.PoolManager()
         url = f"http://hq-server62/AxisWebApp/services/CardlibIntegrationService2Port?wsdl"
         resp = http.request('GET', url)

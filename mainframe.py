@@ -30,11 +30,12 @@ class Cmd:
 
 KWH = 1.77
 
+
 class MainFrame(wx.Frame):
     def __init__(self, parent, title, log, model:Model, args:Args):
         self._model = model
         self._args = args
-        wu.set_screen_size()
+        wu.reset_screen_size()
         # size:wx.Size = wx.Display(0).GetGeometry().GetSize()*wu.SCALE
         size:wx.Size = wu.get_screen_size()
         # size = wx.Size(1366,768)
@@ -42,10 +43,10 @@ class MainFrame(wx.Frame):
         size_frame = wx.Size(size.width, size.height+60)
         kwh = size.width / size.height
         pos = wx.Point(0, 0)
-        if (kwh < KWH):
-            height = int(size.width / KWH)
-            pos = wx.Point(0, (size.height - height) // 2)
-            size.SetHeight(height)
+        # if (kwh < KWH):
+        #     height = int(size.width / KWH)
+        #     pos = wx.Point(0, (size.height - height) // 1)
+        #     size.SetHeight(height)
         
         super().__init__(parent, title='MED',pos=(0,0),size=size_frame, style = wx.DEFAULT_FRAME_STYLE)
         self.BackgroundColour = wx.WHITE

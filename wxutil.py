@@ -1,28 +1,42 @@
 from ctypes.wintypes import PINT
 import wx
+print('start wxutil')
 
 BLUE  = wx.Colour(20,20,200)
 GREEN = wx.Colour(20,200,20)
 RED   = wx.Colour(200,20,20)
 GRAY  = wx.Colour(60,60,60)
 
-SCALE = 6/6
-_screen_size:wx.Size = wx.Size(1366, 768) * 3 / 4 #
+# _screen_size:wx.Size = wx.Size(1366, 768) * 4 / 4 #
 # _screen_size:wx.Size = wx.Size(1024, 768) * 4 / 4 #
 # _screen_size:wx.Size = wx.Display(0).GetGeometry().GetSize()*SCALE
-_dh  = _screen_size.height / 100
-_dw = _screen_size.width / 100
-def set_screen_size():
-    _screen_size:wx.Size = wx.Display(0).GetGeometry().GetSize()*SCALE
-    _dh  = _screen_size.height / 100
-    _dw = _screen_size.width / 100
+# _dh  = _screen_size.height / 100
+# _dw = _screen_size.width / 100
+
+def reset_screen_size():
+    pass
+    # _screen_size:wx.Size = wx.Display(0).GetGeometry().GetSize()*SCALE
+    # print(f'reset_screen_size {_screen_size=}')
+    # _dh = _screen_size.height / 100
+    # _dw = _screen_size.width / 100
 
 def get_screen_size():
+    SCALE = 2/2
+    # _screen_size:wx.Size = wx.Size(1024, 768)
+    # _screen_size:wx.Size = wx.Size(1366, 768)
+    # _screen_size:wx.Size = wx.Size(1920, 1080)
+    # _screen_size:wx.Size = wx.Size(1280, 720)
+    _screen_size:wx.Size = wx.Display(0).GetGeometry().GetSize()*SCALE
+    print(f'get_screen_size {_screen_size=}')
     return _screen_size    
 
 def fh(y:int = 1):
+    _screen_size:wx.Size = get_screen_size()
+    _dh = _screen_size.height / 100
     return int(_dh * y)
 def fw(x:int = 1):
+    _screen_size:wx.Size = get_screen_size()
+    _dw = _screen_size.width / 100
     return int(_dw * x)
 
 
