@@ -6,7 +6,7 @@ class PanelPiro(wx.Panel):
     def __init__(self, parent, size:wx.Size, pos=wx.Point(0,0)):
         self.parent = parent
         size = size
-        path = "images/posterpiro.png"
+        path = "images/posterpiro_k3.jpg"
         bitmap = wx.Bitmap(path)
         bitmap = wu.scale_bitmap(bitmap, size)
 

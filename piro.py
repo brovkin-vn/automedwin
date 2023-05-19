@@ -13,7 +13,7 @@ DATA_LEN = 7
 class Piro(threading.Thread):
 
 
-    def __init__(self, log, port='COM3') -> None:
+    def __init__(self, log, port='COM4') -> None:
         super().__init__()
         self._log = log
         self._log.info(f'init pirometer device module on {port=}')

@@ -14,8 +14,8 @@ class Args(object):
         self.parser.add_argument('-ea', '--enable_alco', action='store_true', help="Включить функцию алкотестирвания")
         self.parser.add_argument('-ep', '--enable_piro', action='store_true', help="Включить функцию замера температуры")
         self.parser.add_argument('-pump', dest="pump_port", default='COM1', type=str, help='Порт тономертра, по умочанию COM1')
-        self.parser.add_argument('-alco', dest="alco_port", default='COM2', type=str, help='Порт алкотестера, по умочанию COM2')
-        self.parser.add_argument('-piro', dest="piro_port", default='COM3', type=str, help='Порт пирометра, по умочанию COM3')
+        self.parser.add_argument('-alco', dest="alco_port", default='COM3', type=str, help='Порт алкотестера, по умочанию COM3')
+        self.parser.add_argument('-piro', dest="piro_port", default='COM4', type=str, help='Порт пирометра, по умочанию COM4')
         self._args = self.parser.parse_args()
         # print(arguments)
 

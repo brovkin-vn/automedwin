@@ -40,7 +40,7 @@ class MainFrame(wx.Frame):
         size:wx.Size = wu.get_screen_size()
         # size = wx.Size(1366,768)
 
-        size_frame = wx.Size(size.width, size.height+60)
+        size_frame = wx.Size(size.width, size.height)
         kwh = size.width / size.height
         pos = wx.Point(0, 0)
         # if (kwh < KWH):
@@ -48,7 +48,7 @@ class MainFrame(wx.Frame):
         #     pos = wx.Point(0, (size.height - height) // 1)
         #     size.SetHeight(height)
         
-        super().__init__(parent, title='MED',pos=(0,0),size=size_frame, style = wx.DEFAULT_FRAME_STYLE)
+        super().__init__(parent, title='MED',pos=(0,0),size=size_frame, style = 0)#wx.DEFAULT_FRAME_STYLE)
         self.BackgroundColour = wx.WHITE
 
         self._log = log
@@ -75,7 +75,7 @@ class MainFrame(wx.Frame):
         panelMenu.Append(Cmd.ID_SHOW_ERRO, "&7 Error")
         panelMenu.Append(Cmd.ID_SHOW_WAIT, "&8 Wait")
         menubar.Append(panelMenu, "&Window")
-        self.SetMenuBar(menubar) 
+        # self.SetMenuBar(menubar) 
 
         self.Bind(wx.EVT_CLOSE, self.onClose)        
         self.Bind(wx.EVT_MENU, self.onQuit, id=wx.ID_EXIT)

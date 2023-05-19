@@ -21,9 +21,12 @@ def alco():
     try:
         desc_mask = "cp210x"
         desc_mask = "LOCATION=1-1.1.1"
+        desc_mask = "CH340"
+        desc_mask = "COM3"
         ports = serial.tools.list_ports.comports()
         for port, desc, hwid in sorted(ports):
-            if desc_mask in  hwid:
+            # if desc_mask in  hwid:
+            if desc_mask in  port:
                 return True, port
         return False, 'None'
     except:
@@ -32,10 +35,12 @@ def alco():
 def piro():
     try:
         desc_mask = "CH340"
-        desc_mask = "LOCATION=1-1.2.3"
+        # desc_mask = "LOCATION=1-1.2.1"
+        desc_mask = "COM4"
         ports = serial.tools.list_ports.comports()
         for port, desc, hwid in sorted(ports):
-            if desc_mask in  hwid:
+            # if desc_mask in  hwid:
+            if desc_mask in  port:
                 return True, port
         return False, 'None'
     except:

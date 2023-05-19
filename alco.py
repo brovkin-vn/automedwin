@@ -13,7 +13,7 @@ import serial
 class Alco(threading.Thread):
 
 
-    def __init__(self, log, port='COM1') -> None:
+    def __init__(self, log, port='COM3') -> None:
         super().__init__()
         # _args = args.Args()
         # self._log = log.Log()

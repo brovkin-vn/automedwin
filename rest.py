@@ -30,7 +30,7 @@ class Rest():
 
         try: 
             http = urllib3.PoolManager()
-            url = f"https://pnoc-pc177.uku.evraz.com/medic/SaveBtnYaml.php?{id=}&{btn=}"
+            url = f"https://pnoc-server9.uku.evraz.com/medic2/SaveBtnYaml.php?{id=}&{btn=}"
             self._log.info(f"{url=}")
             resp = http.request('GET', url)
             
@@ -73,7 +73,7 @@ class Rest():
         try: 
             print('111111')
             http = urllib3.PoolManager()
-            url = f"https://pnoc-pc177.uku.evraz.com/medic/SaveMedicYaml.php?{id=}&E={E}&{S=}&{M=}&{D=}&{P=}&{L=}&{P_max=}&{Move=}&{T=}&{dissatisfied=}&{Alc=}&Pir={Pir}"
+            url = f"https://pnoc-server9.uku.evraz.com/medic2/SaveMedicYaml.php?{id=}&E={E}&{S=}&{M=}&{D=}&{P=}&{L=}&{P_max=}&{Move=}&{T=}&{dissatisfied=}&{Alc=}&Pir={Pir}"
             print('111112')
             self._log.info(f"{url=}")
             resp = http.request('GET', url)
@@ -118,8 +118,8 @@ class Rest():
             card1 = (card >> 1) & 0xFFFF
             card2 = (card >> 17) & 0xFF
             http = urllib3.PoolManager()
-            url = f"https://pnoc-pc177.uku.evraz.com/medic/indexYaml.php?card1={card1}&card2={card2}&id={box_id}"
-
+            url = f"https://pnoc-server9.uku.evraz.com/medic2/indexYaml.php?card1={card1}&card2={card2}&id={box_id}"
+            self._log.info(url)
             resp = http.request('GET', url)
             
             result = (resp.status == 200)

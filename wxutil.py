@@ -21,7 +21,7 @@ def reset_screen_size():
     # _dw = _screen_size.width / 100
 
 def get_screen_size():
-    SCALE = 2/2
+    SCALE = 6/6
     # _screen_size:wx.Size = wx.Size(1024, 768)
     # _screen_size:wx.Size = wx.Size(1366, 768)
     # _screen_size:wx.Size = wx.Size(1920, 1080)
