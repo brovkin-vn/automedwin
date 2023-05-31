@@ -24,8 +24,8 @@ class PanelTest(wx.Panel):
         self.test_result_color = [wu.GRAY, wu.GREEN, wu.RED]
         self.test_processs_state = 0
         self.test_step_number = 0
-        
-        AdaptiveStaticText(self, label="Экран диагностики" ,parent_size=size,    pos=wx.Point(fw(2),fh(3+(6*0))), size=wx.Size(size.width//2-fw(), fh()), font_size=32, font_color=wu.BLUE)
+        args = Args()
+        AdaptiveStaticText(self, label=f"Экран диагностики, номер модуля {args.module_id}" ,parent_size=size,    pos=wx.Point(fw(2),fh(3+(6*0))), size=wx.Size(size.width//2-fw(), fh()), font_size=32, font_color=wu.BLUE)
         
         self.checklist = []
         # self.test = [alco, piro, addr, router1, router2, server1, server2]

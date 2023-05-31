@@ -70,16 +70,17 @@ STATES = {
 
 class Model():
 
-    def __init__(self, log) -> None:
-        print(f"INIT MODEL INIT MODEL INIT MODEL INIT MODEL INIT MODEL INIT MODEL INIT MODEL INIT MODEL INIT MODEL ")
+    def __init__(self, log, args) -> None:
+        print(f"INIT MODEL")
         self.log = log
+        self.args = args
 
         self._app_data = '2022-09-12'
         self._app_version = '0.000'
         self._app_name = 'automed'
         self._state = STATE.START
         self._card:int = 0
-        self._box_id = 99
+        self._box_id = args.module_id
         self._timer_pump = 0
         self._timer_error = 0
         self._timer_test = 0

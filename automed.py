@@ -15,7 +15,7 @@ if __name__ == "__main__":
     log.info('start automed app')
 
     args = Args()
-    model = Model(log)
+    model = Model(log, args)
     rest = Rest(log)
     
     automat = Automat(log, model, rest)

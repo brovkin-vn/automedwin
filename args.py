@@ -8,7 +8,7 @@ class Args(object):
         return cls.instance
 
     def __init__(self) -> None:
-        self.parser = argparse.ArgumentParser(description='Аргрументы приложения АС Медосмотры')
+        self.parser = argparse.ArgumentParser(description='Аргументы приложения АС Медосмотры')
         self.parser.add_argument('-ev', '--enable_verbose', action='store_true', help="Включить расширенное журналирование")
         self.parser.add_argument('-dr', '--disable_recognition', action='store_true', help="Отключить распознование лица")
         self.parser.add_argument('-ea', '--enable_alco', action='store_true', help="Включить функцию алкотестирвания")
@@ -16,6 +16,7 @@ class Args(object):
         self.parser.add_argument('-pump', dest="pump_port", default='COM1', type=str, help='Порт тономертра, по умочанию COM1')
         self.parser.add_argument('-alco', dest="alco_port", default='COM3', type=str, help='Порт алкотестера, по умочанию COM3')
         self.parser.add_argument('-piro', dest="piro_port", default='COM4', type=str, help='Порт пирометра, по умочанию COM4')
+        self.parser.add_argument('-id', dest="module_id", default='99', type=str, help='Номер модуля, по умочанию 99')
         self._args = self.parser.parse_args()
         # print(arguments)
 
@@ -52,6 +53,10 @@ class Args(object):
     def piro_port(self):
         return self._args.piro_port
 
+    @property
+    def module_id(self):
+        return self._args.module_id
+
 def test():
     args = Args()
     print(f'{args.args=}')
@@ -60,6 +65,7 @@ def test():
     print(f'{args.enable_alco=}')
     print(f'{args.enable_piro=}')
     print(f'{args.pump_port=}')
+    print(f'{args.id=}')
 
 if __name__ == '__main__':
     test()
