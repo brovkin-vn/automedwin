@@ -48,7 +48,11 @@ class MainFrame(wx.Frame):
         #     pos = wx.Point(0, (size.height - height) // 1)
         #     size.SetHeight(height)
         
-        super().__init__(parent, title='MED',pos=(0,0),size=size_frame, style = 0)#wx.DEFAULT_FRAME_STYLE)
+        if args.module_id == 99:
+            super().__init__(parent, title='MED',pos=(0,0),size=size_frame, style = wx.DEFAULT_FRAME_STYLE)
+        else:
+            super().__init__(parent, title='MED',pos=(0,0),size=size_frame, style = 0)
+        
         self.BackgroundColour = wx.WHITE
 
         self._log = log
@@ -75,7 +79,8 @@ class MainFrame(wx.Frame):
         panelMenu.Append(Cmd.ID_SHOW_ERRO, "&7 Error")
         panelMenu.Append(Cmd.ID_SHOW_WAIT, "&8 Wait")
         menubar.Append(panelMenu, "&Window")
-        # self.SetMenuBar(menubar) 
+        if args.module_id == 99:
+            self.SetMenuBar(menubar) 
 
         self.Bind(wx.EVT_CLOSE, self.onClose)        
         self.Bind(wx.EVT_MENU, self.onQuit, id=wx.ID_EXIT)
@@ -90,6 +95,10 @@ class MainFrame(wx.Frame):
         self.Bind(wx.EVT_MENU, self.onShowPanel, id=Cmd.ID_SHOW_WAIT)
         self.Bind(wx.EVT_CHAR_HOOK, self.onCharHook) 
 
+        self.keyTimerTick:int = 0
+        self.keyTimer = wx.Timer(self)
+        self.keyTimer.Start(333)
+        self.Bind(wx.EVT_TIMER, self.onKeyTimer)
 
         # panels list
         self.panelPost = PanelPost(self, size, pos) 
@@ -112,9 +121,6 @@ class MainFrame(wx.Frame):
     def args(self):
         return self._args
 
-    # def onClickP(self, event):
-    #     print("onClickP")
-
     @property
     def card(self):
         return self._card
@@ -126,8 +132,20 @@ class MainFrame(wx.Frame):
     def connect(self, foo):
         self._callback = foo
 
+
+    def onKeyTimer(self, event):
+        self.keyTimerTick = self.keyTimerTick + 1
+        if len(self._buffer) >= 8 and self.keyTimerTick > 1:
+
+            self._log.info(f'pass is read card={self._buffer}')
+            self._card = self._buffer
+            self._buffer  = ''
+            if self._callback:
+                self._callback(self.card)        
+
     def onCharHook(self, event):
-        print("onCharHook", event.KeyCode, event.RawKeyCode, event.RawKeyFlags, chr(event.RawKeyCode))
+        print("onCharHook", event.KeyCode, event.RawKeyCode, event.RawKeyFlags, chr(event.RawKeyCode), self._buffer)
+        self.keyTimerTick = 0
         try:
             # print(f"{key.__dict__=}")
             tick = datetime.now()
@@ -141,11 +159,11 @@ class MainFrame(wx.Frame):
                 # self._buffer = key.char
 
             # self._log.debug(f'{d.seconds=} {d.microseconds=} {self.buffer=}')
-            if len(self._buffer) == 8:
-                self._log.info(f'pass is read card={self._buffer}')
-                self._card = self._buffer
-                if self._callback:
-                    self._callback(self.card)        
+            # if len(self._buffer) == 8:
+            #     self._log.info(f'pass is read card={self._buffer}')
+            #     self._card = self._buffer
+            #     if self._callback:
+            #         self._callback(self.card)        
             
             
         except AttributeError as e:
@@ -153,7 +171,6 @@ class MainFrame(wx.Frame):
 
 
     def onQuit(self, event):
-
         self.Close()        
 
     def onClose(self, event):

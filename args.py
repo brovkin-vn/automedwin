@@ -16,7 +16,7 @@ class Args(object):
         self.parser.add_argument('-pump', dest="pump_port", default='COM1', type=str, help='Порт тономертра, по умочанию COM1')
         self.parser.add_argument('-alco', dest="alco_port", default='COM3', type=str, help='Порт алкотестера, по умочанию COM3')
         self.parser.add_argument('-piro', dest="piro_port", default='COM4', type=str, help='Порт пирометра, по умочанию COM4')
-        self.parser.add_argument('-id', dest="module_id", default='99', type=str, help='Номер модуля, по умочанию 99')
+        self.parser.add_argument('-id', dest="module_id", default=99, type=int, help='Номер модуля, по умочанию 99')
         self._args = self.parser.parse_args()
         # print(arguments)
 

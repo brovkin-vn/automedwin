@@ -132,11 +132,11 @@ class Rest():
                     result = (d['result'] == "OK")
                     full_name = d['fullName']
                     row_id = d['rowId']
+                    error_message  =d['message']
+                    print(result, full_name, row_id, error_message)
                 except yaml.YAMLError as e:
                     self._log.error(e)
                     error_message = e
-                    
-
 
         except Exception as e:
             self._log.error(e)

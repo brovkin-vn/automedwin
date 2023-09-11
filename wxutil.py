@@ -27,7 +27,7 @@ def get_screen_size():
     # _screen_size:wx.Size = wx.Size(1920, 1080)
     # _screen_size:wx.Size = wx.Size(1280, 720)
     _screen_size:wx.Size = wx.Display(0).GetGeometry().GetSize()*SCALE
-    print(f'get_screen_size {_screen_size=}')
+    # print(f'get_screen_size {_screen_size=}')
     return _screen_size    
 
 def fh(y:int = 1):

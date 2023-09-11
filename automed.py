@@ -53,6 +53,7 @@ if __name__ == "__main__":
             model.enable_piro = False
 
     app = App()
+    
     frame = MainFrame(None, 'Hello', log=log, model=model, args=args)
     frame.connect(automat.on_card_data_is_ready)
     frame.bindAutomat(automat)
